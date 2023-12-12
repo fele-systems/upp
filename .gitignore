@@ -40,3 +40,5 @@ cmake_install.cmake
 CMakeUserPresets.json
 compile_commands.json
 Makefile
+.cache
+upp

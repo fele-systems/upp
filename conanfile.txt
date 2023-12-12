@@ -2,6 +2,7 @@
 [requires]
 crowcpp-crow/1.0+5
 fmt/8.1.1
+yaml-cpp/0.8.0
 
 [generators]
 CMakeDeps

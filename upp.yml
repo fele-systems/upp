@@ -1,0 +1,6 @@
+server:
+  dirs:
+    - path: /tmp
+      passphrase:
+    - path: uploads
+      passphrase: uploadin
