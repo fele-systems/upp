@@ -26,9 +26,11 @@ std::string map_to_string(const std::unordered_map<K,V> &m) {
   return result;
 }
 
-int main()
+int _main()
 {
     auto config = YAML::LoadFile("upp.yml")["server"].as<Config>();
+
+    std::cout << "Port: " << config.port << std::endl;
 
     for (const auto& dir : config.dirs)
     {
@@ -49,17 +51,29 @@ int main()
     return 0;
 }
 
-int _main()
+int main()
 {
-
-
+    using namespace crow::json;
 
     crow::SimpleApp app;
+    auto config = YAML::LoadFile("upp.yml")["server"].as<Config>();
+    
 
     CROW_ROUTE(app, "/")
-    ([](){
-        crow::response response{};
-        response.redirect_perm("/static/index.html");
+    ([&](){
+        crow::response response;
+        auto page = crow::mustache::load("index.html");
+        crow::mustache::context ctx;
+        {
+            wvalue::list dirs;
+            for (const auto& dir : config.dirs)
+            {
+                dirs.push_back(wvalue{ {"path",dir.path}, {"passphrase",dir.passphrase} });
+            }
+            ctx["dirs"] = std::move(dirs);
+        }
+        response.body = page.render_string(ctx);
+        response.add_header("Content-Type", "text/html; charset=utf-8");
         return response;
     });
 
@@ -102,7 +116,7 @@ int _main()
         return response;
     });
 
-    app.port(18080).multithreaded().run();
+    app.port(config.port).multithreaded().run();
 
     return 0;
 }

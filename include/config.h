@@ -14,6 +14,8 @@ struct Directory
 
 struct Config
 {
+    std::string base_path = "./";
+    uint16_t port = 8080;
     std::vector<Directory> dirs;
 };
 
@@ -42,6 +44,12 @@ namespace YAML
         static bool decode(const Node& node, Config& rhs) {
             if(!node.IsMap())
                 return false;
+
+            if (const auto &port = node["port"]; !port.IsNull())
+                rhs.port = port.as<uint16_t>();
+
+            if (const auto &base_path = node["base_path"]; !base_path.IsNull())
+                rhs.base_path = base_path.as<std::string>();
 
             const auto& dirs = node["dirs"];
 

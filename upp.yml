@@ -1,4 +1,6 @@
 server:
+  base_path: ./
+  port: 80
   dirs:
     - path: /tmp
       passphrase:

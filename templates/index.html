@@ -28,14 +28,17 @@
 
         .form-upload input[type="file"] {
             margin-bottom: -1px;
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
         }
 
         .form-upload input[type="password"] {
             margin-bottom: 10px;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
+        }
+
+        .form-upload #directory {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
         }
 
 
@@ -127,6 +130,17 @@
             <div class="mb-3">
                 <label for="fileInput">Uploading file</label>
                 <input type="file" class="form-control" id="fileInput" name="fileInput">
+            </div>
+
+            <div class="form-floating">
+
+                <select id="directory" name="directory" class="form-control">
+
+                    {{#dirs}}
+                    <option value="{{path}}">{{path}}</option>
+                    {{/dirs}}
+                </select>
+                <label for="directory">Directory</label>
             </div>
 
             <div class="form-floating">
