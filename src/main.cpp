@@ -29,6 +29,7 @@ std::string map_to_string(const std::unordered_map<K,V> &m) {
 
 int _main()
 {
+    return 0;
     auto config = YAML::LoadFile("upp.yml")["server"].as<Config>();
 
     std::cout << "Port: " << config.port << std::endl;

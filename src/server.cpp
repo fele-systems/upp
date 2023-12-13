@@ -1,4 +1,6 @@
 #include <server.h>
+#include <filesystem>
+#include <string_utils.h>
 
 Server::Server(const Config &config)
     : config(config)
@@ -83,7 +85,7 @@ crow::response Server::upload(const crow::request &request)
     auto fileinput = msg.get_part_by_name("fileInput");
     auto filename = fileinput.get_header_object("Content-Disposition").params.at("filename");
 
-    auto target_file = config_dir->path + filename;
+    auto target_file = std::filesystem::path{config.base_path} / config_dir->path / filename;
 
     std::ofstream offload{target_file, std::ios_base::out | std::ios_base::binary};
 
@@ -96,7 +98,7 @@ crow::response Server::upload(const crow::request &request)
     else
     {
         std::cout << "Something bad happended. Could not open " << target_file << std::endl;
-        return get_index(crow::mustache::context{{"error", "Something bad happended. Could not open " + target_file}});
+        return get_index(crow::mustache::context{{"error", fmt::format("Something bad happended. Could not open {}", target_file.u8string())}});
     }
 
     std::cout << "Uploaded file: " << target_file << std::endl;
