@@ -127,13 +127,16 @@
             <img class="mb-4" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.freepik.com%2Fpremium-vector%2Fnerd-face-emoji-clever-emoticon-with-glasses-geek-student_3482-1193.jpg%3Fw%3D2000&f=1&nofb=1&ipt=908bf1d89a2d3ee0ada5cf9eee464b271baaab250517e1bd8c3e5b692ca215b8&ipo=images" alt="" width="72" height="72">
             <h1 class="h3 mb-3 fw-normal">Upload your file</h1>
 
+            {{#error}}
+            <div class="invalid-feedback" style="display: block;">{{error}}</div>
+            {{/error}}
+
             <div class="mb-3">
                 <label for="fileInput">Uploading file</label>
                 <input type="file" class="form-control" id="fileInput" name="fileInput">
             </div>
 
             <div class="form-floating">
-
                 <select id="directory" name="directory" class="form-control">
 
                     {{#dirs}}

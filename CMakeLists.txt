@@ -10,7 +10,7 @@ find_package(yaml-cpp)
 
 # Main
 add_executable("${PROJECT_NAME}"
-            src/main.cpp)
+            src/main.cpp src/server.cpp src/config.cpp)
 
 target_compile_features("${PROJECT_NAME}" PRIVATE cxx_std_17)
 

@@ -31,7 +31,9 @@ namespace YAML
                 return false;
 
             rhs.path = node["path"].as<std::string>();
-            rhs.passphrase = node["passphrase"].as<std::string>();
+
+            if (auto passphrase = node["passphrase"]; !passphrase.IsNull())
+                rhs.passphrase = passphrase.as<std::string>();
             return true;
         }
     };
@@ -66,6 +68,4 @@ namespace YAML
     };
 }
 
-std::ostream& operator<<(std::ostream& os, const Directory& dir) {
-    return os << fmt::format("Dir[path={}, passphrase={}]", dir.path, dir.passphrase);
-}
+std::ostream& operator<<(std::ostream& os, const Directory& dir);
