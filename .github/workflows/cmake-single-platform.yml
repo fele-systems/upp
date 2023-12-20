@@ -29,7 +29,7 @@ jobs:
       run: conan profile detect
 
     - name: Conan Install
-      run: conan install . -of cmake-build-debug --build=missing -s build_type=Debug
+      run: conan install . -of build --build=missing -s build_type=${{ env.BUILD_TYPE }}
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -37,7 +37,7 @@ jobs:
       run: |
         cmake -B ${{github.workspace}}/build \
           -DCMAKE_TOOLCHAIN_FILE=cmake-build-debug/conan_toolchain.cmake \
-          -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+          -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
 
     - name: Build
       # Build your program with the given configuration
