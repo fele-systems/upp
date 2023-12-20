@@ -49,9 +49,16 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
       if: false
+
+    - name: Prepare package
+      run: |
+        mkdir ${{github.workspace}}/package
+        cp ${{github.workspace}}/build/upp    --target-directory=${{github.workspace}}/package
+        cp -r ${{github.workspace}}/templates --target-directory=${{github.workspace}}/package
+        cp ${{github.workspace}}/upp.yml      --no-target-directory ${{github.workspace}}/package/example.upp.yml
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.0.0
       with:
         name: upp
-        path: upp
+        path: ${{github.workspace}}/package
