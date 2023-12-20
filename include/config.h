@@ -10,6 +10,7 @@ struct Directory
 {
     std::string path;
     std::string passphrase;
+    bool file;
 };
 
 struct Config
@@ -32,7 +33,10 @@ namespace YAML
 
             rhs.path = node["path"].as<std::string>();
 
-            if (auto passphrase = node["passphrase"]; !passphrase.IsNull())
+            if (auto file = node["file"]; file && !file.IsNull())
+                rhs.file = file.as<bool>();
+
+            if (auto passphrase = node["passphrase"]; passphrase && !passphrase.IsNull())
                 rhs.passphrase = passphrase.as<std::string>();
             return true;
         }

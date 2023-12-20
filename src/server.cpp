@@ -83,9 +83,10 @@ crow::response Server::upload(const crow::request &request)
     }
 
     auto fileinput = msg.get_part_by_name("fileInput");
-    auto filename = fileinput.get_header_object("Content-Disposition").params.at("filename");
-
-    auto target_file = std::filesystem::path{config.base_path} / config_dir->path / filename;
+    // if config_dir->file is set, then treat it as the actual file
+    auto target_file = config_dir->file
+        ? std::filesystem::path{config.base_path} / config_dir->path
+        : std::filesystem::path{config.base_path} / config_dir->path / fileinput.get_header_object("Content-Disposition").params.at("filename");
 
     std::ofstream offload{target_file, std::ios_base::out | std::ios_base::binary};
 
@@ -97,11 +98,11 @@ crow::response Server::upload(const crow::request &request)
     }
     else
     {
-        std::cout << "Something bad happended. Could not open " << target_file << std::endl;
+        std::cout << "Something bad happended. Could not open " << std::filesystem::absolute(target_file) << std::endl;
         return get_index(crow::mustache::context{{"error", fmt::format("Something bad happended. Could not open {}", target_file.u8string())}});
     }
 
-    std::cout << "Uploaded file: " << target_file << std::endl;
+    std::cout << "Uploaded file: " << std::filesystem::absolute(target_file) << std::endl;
 
     /*for (const auto& part : msg.parts) {
         for (const auto& header : part.headers) {
