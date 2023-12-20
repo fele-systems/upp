@@ -25,6 +25,9 @@ jobs:
     - name: Get Conan
       uses: turtlebrowser/get-conan@v1.2      
 
+    - name: Conan Profile
+      run: conan profile detect
+
     - name: Conan Install
       run: conan install . -of cmake-build-debug --build=missing -s build_type=Debug
 
